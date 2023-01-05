@@ -2,17 +2,27 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-
+import { RouterProvider } from 'react-router-dom';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import appTheme from './main/appTheme';
+import axios from 'axios';
+import createRouter from "./routes/router"
+const baseUrl = process.env.REACT_APP_BASE_URL;
+if (!baseUrl) console.error("Base Url not defined")
+axios.defaults.baseURL = baseUrl;
 const container = document.getElementById('root')!;
 const root = createRoot(container);
+const router = createRouter();
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ThemeProvider theme={appTheme}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>
 );
